@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Builder
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @EntityListeners(AuditingEntityListener.class)
 @CrossOrigin( origins = "*")
 @Table(name = "permission_tab")
-public class PermissionTabEntity {
+public class PermissionTabEntity implements Serializable {
 
     @Id
     @Column(name = "id")

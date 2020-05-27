@@ -47,6 +47,9 @@ public class MovieServiceImpl implements MovieService {
     private DirectorRepository directorRepository;
 
     @Autowired
+    private ServeRepository serveRepository;
+
+    @Autowired
     private CountryConverter countryConverter;
 
     @Autowired
@@ -66,6 +69,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieItemConverter movieItemConverter;
+
+    @Autowired
+    private ServeConverter serveConverter;
 
     @Autowired
     private ImageService imageService;
@@ -164,6 +170,7 @@ public class MovieServiceImpl implements MovieService {
         List<ActorEntity> actor;
         List<DirectorEntity> director;
         List<GenreEntity> genre;
+        List<ServeEntity> serve;
         Optional<ImageEntity> image;
         Optional<CountryEntity> country;
 
@@ -182,7 +189,14 @@ public class MovieServiceImpl implements MovieService {
         if (ObjectUtils.allNotNull(country) && country.isPresent()) {
             movieDto.setCountry(countryConverter.toDTO(country.get()));
         }
-
+        serve = serveRepository.getServeHasMovie(movie.getId(), "movie");
+        if (ObjectUtils.allNotNull(serve)) {
+            movieDto.setServes(serveConverter.toDTO(serve));
+        }
+        serve = serveRepository.getServeHasMovie(movie.getId(), "trailer");
+        if (ObjectUtils.allNotNull(serve)) {
+            movieDto.setTrailers(serveConverter.toDTO(serve));
+        }
         actor = actorRepository.getActorHasMovie(movie.getId());
         if (ObjectUtils.allNotNull(actor)) {
             movieDto.setActors(actorConverter.toDTO(actor));
@@ -251,19 +265,19 @@ public class MovieServiceImpl implements MovieService {
                 movieUpdate.setCountry_id(movieDto.getCountry().getId());
             }
             // set image
-            if (movieDto.getImage().getId() == 0) {
-                ImageEntity imageEntity = (ImageEntity) imageService.updateImage(movieDto.getImage()).getData("image");
-                movieUpdate.setImage_id(imageEntity.getId());
-            } else if (ObjectUtils.allNotNull(movieDto.getImage())) {
-                movieUpdate.setImage_id(movieDto.getImage().getId());
-            }
+//            if (movieDto.getImage().getId() == 0) {
+            ImageEntity imageEntity = (ImageEntity) imageService.updateImage(movieDto.getImage()).getData("image");
+            movieUpdate.setImage_id(imageEntity.getId());
+//            } else if (ObjectUtils.allNotNull(movieDto.getImage())) {
+//                movieUpdate.setImage_id(movieDto.getImage().getId());
+//            }
             // set banner
-            if (movieDto.getBanner().getId() == 0) {
-                ImageEntity imageEntity = (ImageEntity) imageService.updateImage(movieDto.getBanner()).getData("image");
-                movieUpdate.setBanner_id(imageEntity.getId());
-            } else if (ObjectUtils.allNotNull(movieDto.getBanner())) {
-                movieUpdate.setBanner_id(movieDto.getBanner().getId());
-            }
+//            if (movieDto.getBanner().getId() == 0) {
+            imageEntity = (ImageEntity) imageService.updateImage(movieDto.getBanner()).getData("image");
+            movieUpdate.setBanner_id(imageEntity.getId());
+//            } else if (ObjectUtils.allNotNull(movieDto.getBanner())) {
+//                movieUpdate.setBanner_id(movieDto.getBanner().getId());
+//            }
             MovieEntity movieEntity = movieRepository.save(movieUpdate);
             if (ObjectUtils.allNotNull(movieEntity)) {
                 movieId = movieEntity.getId();

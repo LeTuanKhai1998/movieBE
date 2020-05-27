@@ -56,12 +56,17 @@ public class UserServiceImpl implements UserService {
             userUpdate.setFirstname(form.getFirstname());
             userUpdate.setLastname(form.getLastname());
             userUpdate.setUsername(form.getUsername());
-            if (form.getAvatar().getId() == 0) {
-                ImageUserEntity imageUserEntity = (ImageUserEntity) imageUserService.updateImageUser(form.getAvatar()).getData("image");
-                userUpdate.setAvatar_id(imageUserEntity.getId());
-            } else if (ObjectUtils.allNotNull(form.getAvatar())) {
-                userUpdate.setAvatar_id(form.getAvatar().getId());
-            }
+//            if (form.getAvatar().getId() == 0) {
+            ImageUserEntity imageUserEntity = (ImageUserEntity) imageUserService.updateImageUser(form.getAvatar()).getData("image");
+            userUpdate.setAvatar_id(imageUserEntity.getId());
+//            } else if (ObjectUtils.allNotNull(form.getAvatar())) {
+//                ImageUserEntity imageUserCheck = imageUserService.getOne(form.getAvatar().getId());
+//                if(imageUserService.equals(form.getAvatar())) {
+//                    userUpdate.setAvatar_id(form.getAvatar().getId());
+//                }else {
+//
+//                }
+//            }
             if (ObjectUtils.allNotNull(form.getRole())) {
                 userUpdate.setUser_role_id(form.getRole().getId());
             }

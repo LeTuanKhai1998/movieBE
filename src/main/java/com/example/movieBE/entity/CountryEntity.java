@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @EntityListeners(AuditingEntityListener.class)
 @CrossOrigin( origins = "*")
 @Table(name = "country")
-public class CountryEntity {
+public class CountryEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

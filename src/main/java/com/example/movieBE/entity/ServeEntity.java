@@ -1,5 +1,6 @@
 package com.example.movieBE.entity;
 
+import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
 
@@ -18,12 +19,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @EntityListeners(AuditingEntityListener.class)
 @CrossOrigin( origins = "*")
 @Table(name = "serve")
-public class ServeEntity {
+public class ServeEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Basic@Column(name = "movie_id")
     private Long movie_id;
@@ -34,11 +34,4 @@ public class ServeEntity {
     @Basic@Column(name = "url")
     private String url;
 
-    @Basic
-    @Column(name = "create_time")
-    private Instant create_time;
-
-    @Basic
-    @Column(name = "update_time")
-    private Instant update_time;
 }

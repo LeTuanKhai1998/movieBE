@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @EntityListeners(AuditingEntityListener.class)
 @CrossOrigin( origins = "*")
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements Serializable {
 
     @Id@Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +51,5 @@ public class UserEntity {
 
     @Basic@Column(name = "password",nullable = false)
     private String password;
-
 
 }

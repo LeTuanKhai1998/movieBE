@@ -40,4 +40,8 @@ public class MovieDto {
     private List<ActorDto> actors;
 
     private List<DirectorDto> directors;
+
+    private List<ServeDto> serves;
+
+    private List<ServeDto> trailers;
 }

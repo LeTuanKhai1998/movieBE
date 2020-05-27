@@ -14,29 +14,6 @@ import java.util.Objects;
 @Component
 public class MovieConverter implements BaseConverter<MovieDto, MovieEntity> {
 
-    /**
-     *
-     */
-    @Autowired
-    private ImageConverter imageConverter;
-
-    /**
-     *
-     */
-    @Autowired
-    private GenreConverter genreConverter;
-
-    /**
-     *
-     */
-    @Autowired
-    private CountryConverter countryConverter;
-
-    /**
-     *
-     */
-    @Autowired
-    private ActorConverter actorConverter;
 
     /**
      *

@@ -1,5 +1,6 @@
 package com.example.movieBE.entity;
 
+import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
 
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @EntityListeners(AuditingEntityListener.class)
 @CrossOrigin( origins = "*")
 @Table(name = "actors")
-public class ActorEntity {
+public class ActorEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

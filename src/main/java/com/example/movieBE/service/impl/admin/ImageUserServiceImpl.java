@@ -37,4 +37,9 @@ public class ImageUserServiceImpl implements ImageUserService {
         }
         return response;
     }
+
+    @Override
+    public ImageUserEntity getOne(Long id) {
+        return imageUserRepository.getOne(id);
+    }
 }

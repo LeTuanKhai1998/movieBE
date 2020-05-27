@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
 
@@ -18,7 +19,7 @@ import javax.persistence.*;
 @EntityListeners(AuditingEntityListener.class)
 @CrossOrigin( origins = "*")
 @Table(name = "directors")
-public class DirectorEntity {
+public class DirectorEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
