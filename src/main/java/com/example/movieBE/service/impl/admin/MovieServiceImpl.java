@@ -299,10 +299,15 @@ public class MovieServiceImpl implements MovieService {
         ResponseTemplate response = new ResponseTemplate();
         response.setData("data", "fail");
         if (ObjectUtils.allNotNull(id) && id != 0) {
+            MovieEntity movieEntity = movieRepository.getOne(id);
             actorRepository.deleteActorHasMovie(id);
             directorRepository.deleteDirectorHasMovie(id);
             genreRepository.deleteGenreHasMovie(id);
             movieRepository.deleteById(id);
+            if (ObjectUtils.allNotNull(movieEntity)) {
+                imageRepository.deleteById(movieEntity.getImage_id());
+                imageRepository.deleteById(movieEntity.getBanner_id());
+            }
             response.setData("data", "successful");
         }
         return response;
