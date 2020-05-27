@@ -1,0 +1,62 @@
+package com.example.movieBE.entity;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+@CrossOrigin( origins = "*")
+@Table(name = "movies")
+public class MovieEntity implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Basic@Column(name = "country_id")
+    private Long country_id;
+
+    @Basic@Column(name = "image_id")
+    private Long image_id;
+
+    @Basic@Column(name = "banner_id")
+    private Long banner_id;
+
+    @Basic@Column(name = "name")
+    private String name;
+
+    @Basic@Column(name = "slug")
+    private String slug;
+
+    @Basic@Column(name = "description")
+    private String description;
+
+    @Basic@Column(name = "release_year")
+    private Integer release_year;
+
+    @Basic@Column(name = "num_view")
+    private Long num_view;
+
+    @Basic@Column(name = "run_time")
+    private Integer run_time;
+
+    @Basic@Column(name = "rate")
+    private Float rate;
+
+    @Basic@Column(name = "num_rate")
+    private Long num_rate;
+
+}
