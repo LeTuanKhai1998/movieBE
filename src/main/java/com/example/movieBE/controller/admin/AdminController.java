@@ -3,11 +3,13 @@ package com.example.movieBE.controller.admin;
 import com.example.movieBE.dto.GenreDto;
 import com.example.movieBE.dto.MovieDto;
 import com.example.movieBE.dto.RestResponseDTO;
+import com.example.movieBE.entity.UserEntity;
 import com.example.movieBE.service.admin.AdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +28,6 @@ class AdminController {
      */
     @Autowired
     AdminService adminService;
-
-
 
 
     /**

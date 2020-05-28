@@ -3,11 +3,14 @@ package com.example.movieBE.service.impl.admin;
 import com.example.movieBE.dto.*;
 import com.example.movieBE.entity.ImageUserEntity;
 import com.example.movieBE.entity.UserEntity;
+import com.example.movieBE.entity.UserRoleEntity;
 import com.example.movieBE.repository.UserRepository;
+import com.example.movieBE.repository.UserRoleRepository;
 import com.example.movieBE.service.admin.ImageUserService;
 import com.example.movieBE.service.admin.UserService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +23,41 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private ImageUserService imageUserService;
 
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository,
+                       UserRoleRepository userRoleRepository,
+                       BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    public UserEntity findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public UserEntity findUserByUserName(String userName) {
+        return userRepository.findByUsername(userName);
+    }
+
+    public List<UserRoleEntity> findRoleByEmail(){
+        return userRoleRepository.findAll();
+    }
+
+    public UserEntity saveUser(UserEntity user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        Long id = userRoleRepository.findIdByRoleName("admin");
+        user.setUser_role_id(id);
+        return userRepository.save(user);
+    }
     /**
      * @return
      */

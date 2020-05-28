@@ -17,5 +17,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpec
             " AND ue.user_role_id = ure.id " +
             " ORDER BY ue.id DESC ")
     List<UserDto> getAll();
-
+    UserEntity findByEmail(String email);
+    UserEntity findByUsername(String userName);
 }
