@@ -16,35 +16,38 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserDto {
 
-     private Long id;
+    private Long id;
 
-     private String username;
+    private String username;
 
-     private String firstname;
+    private String firstname;
 
-     private String lastname;
+    private String lastname;
 
-     private String password;
+    private String password;
 
-     private String email;
+    private String email;
 
-      private CountryDto country;
+    private String description;
 
-      private ImageUserDto avatar;
+    private CountryDto country;
 
-      private UserRoleDto role;
+    private ImageUserDto avatar;
 
-     public UserDto(UserEntity user, CountryEntity country, ImageUserEntity imageUser, UserRoleEntity userRole){
-         this.id = user.getId();
-         this.username = user.getUsername();
-         this.firstname = user.getFirstname();
-         this.lastname = user.getLastname();
-         this.email = user.getEmail();
-         CountryConverter countryConverter = new CountryConverter();
-         this.country = countryConverter.toDTO(country);
-         ImageUserConverter imageUserConverter = new ImageUserConverter();
-         this.avatar = imageUserConverter.toDTO(imageUser);
-         UserRoleConverter userRoleConverter =  new UserRoleConverter();
-         this.role = userRoleConverter.toDTO(userRole);
-     }
+    private UserRoleDto role;
+
+    public UserDto(UserEntity user, CountryEntity country, ImageUserEntity imageUser, UserRoleEntity userRole) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.firstname = user.getFirstname();
+        this.lastname = user.getLastname();
+        this.email = user.getEmail();
+        this.description = user.getDescription();
+        CountryConverter countryConverter = new CountryConverter();
+        this.country = countryConverter.toDTO(country);
+        ImageUserConverter imageUserConverter = new ImageUserConverter();
+        this.avatar = imageUserConverter.toDTO(imageUser);
+        UserRoleConverter userRoleConverter = new UserRoleConverter();
+        this.role = userRoleConverter.toDTO(userRole);
+    }
 }

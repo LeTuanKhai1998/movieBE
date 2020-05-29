@@ -283,9 +283,20 @@ public class MovieServiceImpl implements MovieService {
                 movieId = movieEntity.getId();
             }
             if (movieId != 0) {
+                serveRepository.deleteServeHasMovie(movieId);
                 actorRepository.deleteActorHasMovie(movieId);
                 directorRepository.deleteDirectorHasMovie(movieId);
                 genreRepository.deleteGenreHasMovie(movieId);
+                if (ObjectUtils.allNotNull(form.getMovie().getServes())) {
+                    for (ServeDto serveDto : form.getMovie().getServes()) {
+                        serveRepository.saveServeHasMovie(movieId, 2L, serveDto.getUrl());
+                    }
+                }
+                if (ObjectUtils.allNotNull(form.getMovie().getTrailers())) {
+                    for (ServeDto serveDto : form.getMovie().getTrailers()) {
+                        serveRepository.saveServeHasMovie(movieId, 1L, serveDto.getUrl());
+                    }
+                }
                 if (form.isUpdateActor() && ObjectUtils.allNotNull(form.getMovie().getActors())) {
                     for (ActorDto actor : form.getMovie().getActors()) {
                         actorRepository.saveActorHasMovie(movieId, actor.getId());
@@ -314,6 +325,7 @@ public class MovieServiceImpl implements MovieService {
         response.setData("data", "fail");
         if (ObjectUtils.allNotNull(id) && id != 0) {
             MovieEntity movieEntity = movieRepository.getOne(id);
+            serveRepository.deleteServeHasMovie(id);
             actorRepository.deleteActorHasMovie(id);
             directorRepository.deleteDirectorHasMovie(id);
             genreRepository.deleteGenreHasMovie(id);

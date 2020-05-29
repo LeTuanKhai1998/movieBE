@@ -2,6 +2,7 @@ package com.example.movieBE.controller.admin;
 
 import com.example.movieBE.dto.ResponseTemplate;
 import com.example.movieBE.dto.UserDto;
+import com.example.movieBE.form.UpdatePasswordForm;
 import com.example.movieBE.service.admin.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,4 +63,28 @@ public class UserController {
         return response;
     }
 
+
+    @RequestMapping(value = "/GetUserByUserName", method = RequestMethod.GET)
+    public ResponseTemplate getUserByUserName(@RequestParam String userName) {
+        ResponseTemplate response = null;
+        try {
+            response = userService.getUserByUserName(userName);
+        } catch (Exception e) {
+            logger.error("getUserByUserName", e.getMessage());
+            throw e;
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/UpdateUserPassword", method = RequestMethod.POST)
+    public ResponseTemplate updateUserPassword(@RequestBody UpdatePasswordForm form) {
+        ResponseTemplate response = null;
+        try {
+            response = userService.updateUserPassword(form);
+        } catch (Exception e) {
+            logger.error("updateUserPassword", e.getMessage());
+            throw e;
+        }
+        return response;
+    }
 }

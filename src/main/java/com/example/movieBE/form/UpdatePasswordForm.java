@@ -1,4 +1,4 @@
-package com.example.movieBE.dto;
+package com.example.movieBE.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServeDto {
-
-    private Long id;
-
-    private String url;
-
+public class UpdatePasswordForm {
+    private String username;
+    private String newPassword;
 }
