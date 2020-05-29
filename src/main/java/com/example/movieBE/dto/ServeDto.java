@@ -12,4 +12,5 @@ public class ServeDto {
     private Long id;
 
     private String url;
+
 }

@@ -68,12 +68,11 @@ public class UserServiceImpl implements UserService {
                 userUpdate = userRepository.getOne(form.getId());
             } else {
                 userUpdate.setId(form.getId());
-                userUpdate.setPassword(form.getPassword());
             }
             if (!ObjectUtils.allNotNull(userUpdate)) {
                 userUpdate = new UserEntity();
             }
-
+            userUpdate.setPassword(bCryptPasswordEncoder.encode(form.getPassword()));
             userUpdate.setEmail(form.getEmail());
             userUpdate.setFirstname(form.getFirstname());
             userUpdate.setLastname(form.getLastname());
