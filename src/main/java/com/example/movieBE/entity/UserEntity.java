@@ -52,4 +52,7 @@ public class UserEntity implements Serializable {
     @Basic@Column(name = "password",nullable = false)
     private String password;
 
+    @Basic@Column(name = "description")
+    private String description;
+
 }

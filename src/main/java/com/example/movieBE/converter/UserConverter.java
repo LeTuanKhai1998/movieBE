@@ -26,6 +26,7 @@ public class UserConverter implements BaseConverter<UserDto, UserEntity> {
         dto.setFirstname(entity.getFirstname());
         dto.setLastname(entity.getLastname());
         dto.setEmail(entity.getEmail());
+        dto.setDescription(entity.getDescription());
         return dto;
     }
 
@@ -53,7 +54,7 @@ public class UserConverter implements BaseConverter<UserDto, UserEntity> {
         entity.setFirstname(dto.getFirstname());
         entity.setLastname(dto.getLastname());
         entity.setEmail(dto.getEmail());
-        entity.setId(dto.getId());
+        entity.setDescription(dto.getDescription());
         if(Objects.nonNull(dto.getRole())) {
             entity.setUser_role_id(dto.getRole().getId());
         }

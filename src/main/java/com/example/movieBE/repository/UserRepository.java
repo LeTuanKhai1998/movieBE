@@ -10,6 +10,16 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
 
+    UserEntity findOneByUsername(String username);
+
+    @Query(value = " select new com.example.movieBE.dto.UserDto(ue,ce,iue,ure)" +
+            " from UserEntity ue, CountryEntity ce, ImageUserEntity iue, UserRoleEntity ure " +
+            " WHERE ue.country_id = ce.id " +
+            " AND ue.avatar_id = iue.id " +
+            " AND ue.user_role_id = ure.id " +
+            " AND ue.username =:username ")
+    UserDto getByUserName(String username);
+
     @Query(value = " select new com.example.movieBE.dto.UserDto(ue,ce,iue,ure)" +
             " from UserEntity ue, CountryEntity ce, ImageUserEntity iue, UserRoleEntity ure " +
             " WHERE ue.country_id = ce.id " +

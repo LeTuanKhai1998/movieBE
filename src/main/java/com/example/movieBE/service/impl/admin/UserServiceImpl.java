@@ -1,13 +1,23 @@
 package com.example.movieBE.service.impl.admin;
 
+import com.example.movieBE.converter.PermissionTabConverter;
+import com.example.movieBE.converter.UserConverter;
 import com.example.movieBE.dto.*;
 import com.example.movieBE.entity.ImageUserEntity;
+import com.example.movieBE.entity.PermissionTabEntity;
 import com.example.movieBE.entity.UserEntity;
+import com.example.movieBE.entity.UserRoleEntity;
+import com.example.movieBE.form.UpdatePasswordForm;
+import com.example.movieBE.repository.PermissionTabRepository;
 import com.example.movieBE.repository.UserRepository;
+import com.example.movieBE.repository.UserRoleRepository;
 import com.example.movieBE.service.admin.ImageUserService;
 import com.example.movieBE.service.admin.UserService;
+import com.example.movieBE.util.StringUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +33,18 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ImageUserService imageUserService;
+
+    @Autowired
+    private PermissionTabRepository permissionTabRepository;
+
+    @Autowired
+    private PermissionTabConverter permissionTabConverter;
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     /**
      * @return
@@ -90,5 +112,53 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+    @Override
+    public ResponseTemplate getUserByUserName(String userName) {
+        ResponseTemplate response = new ResponseTemplate();
+        if (StringUtil.isNotBlank(userName)) {
+            UserDto userDto = userRepository.getByUserName(userName);
+            List<PermissionTabEntity> permissionTabEntities = permissionTabRepository.getPermissionHasUserRole(userDto.getRole().getId());
+            userDto.getRole().setPermissionTabs(permissionTabConverter.toDTO(permissionTabEntities));
+            response.setData("data", userDto);
+        }
+        return response;
+    }
 
+    @Override
+    public ResponseTemplate updateUserPassword(UpdatePasswordForm form) {
+        ResponseTemplate response = new ResponseTemplate();
+        response.setData("data", "fail");
+        if (ObjectUtils.allNotNull(form)) {
+            UserEntity userUpdate = userRepository.findOneByUsername(form.getUsername());
+            if (ObjectUtils.allNotNull(userUpdate)) {
+//                String pass = passwordEncoder.encode(form.getNewPassword());
+//                userUpdate.setPassword(passwordEncoder.encode(form.getNewPassword()));
+                userUpdate.setPassword(form.getNewPassword());
+            }
+            userRepository.save(userUpdate);
+            response.setData("data", "successful");
+        }
+        return response;
+    }
+
+    @Override
+    public UserEntity findUserByUserName(String userName) {
+        if (StringUtil.isNotBlank(userName)) {
+            return userRepository.findOneByUsername(userName);
+        }
+        return null;
+    }
+
+    @Override
+    public UserEntity saveUser(UserEntity user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        Long id = userRoleRepository.findIdByRoleName("admin");
+        user.setUser_role_id(id);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public List<UserRoleEntity> findRole() {
+        return userRoleRepository.findRole();
+    }
 }
